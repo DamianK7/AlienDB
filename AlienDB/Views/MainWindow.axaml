@@ -1,30 +1,67 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AlienDB.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="clr-namespace:AlienDB.ViewModels"
         x:Class="AlienDB.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="AlienDB">
+        Width="900" Height="600"
+        Title="Alien Universe Database"
+        x:DataType="vm:MainWindowViewModel">
 
-   <ScrollViewer>
-       
-       <StackPanel>
-           <TextBlock Text="Lista Filmów" HorizontalAlignment="Center"/>
-           <ListBox>
-               <ListBoxItem >James Bond</ListBoxItem>
-               <ListBoxItem>Men in Black</ListBoxItem>
-               <ListBoxItem>Top Gun</ListBoxItem>
-               <ListBoxItem>Rocky</ListBoxItem>
-           </ListBox>
-           
-           <TextBox Watermark="Wpisz nazwę filmu..."></TextBox>
-           <Button Content="Dodaj film"/>
-       </StackPanel>
-       
-   </ScrollViewer>
-    
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
 
+    <StackPanel Margin="20" Spacing="20" Orientation="Vertical">
+        <TextBlock Text="Baza filmów Alien Universe" FontSize="20" Margin="0,0,0,10"/>
+
+        <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto,Auto">
+            <!-- Lista filmów -->
+            <ListBox ItemsSource="{Binding Filmy}" SelectedItem="{Binding SelectedFilm}" Height="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding TytulPolski}" />
+                            <TextBlock Text=" (" />
+                            <TextBlock Text="{Binding Gatunek}" />
+                            <TextBlock Text=")" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Dodaj / Usuń -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10">
+                <Button Content="Dodaj film" Command="{Binding AddFilmCommand}"/>
+                <Button Content="Usuń film" Command="{Binding RemoveFilmCommand}"/>
+            </StackPanel>
+
+            <!-- Szczegóły filmu -->
+            <StackPanel Grid.Column="1" Grid.Row="0" Margin="10" Spacing="10">
+                <TextBlock Text="Szczegóły filmu:" FontWeight="Bold" FontSize="18"/>
+                <TextBlock Text="{Binding SelectedFilm.TytulPolski}" FontWeight="Bold"/>
+                <TextBlock Text="{Binding SelectedFilm.TytulOryginalny}" />
+                <TextBlock Text="{Binding SelectedFilm.Rezyser}" />
+                <TextBlock Text="{Binding SelectedFilm.Gatunek}" />
+                <TextBlock Text="{Binding SelectedFilm.CzasTrwania}" />
+                <ProgressBar Minimum="0" Maximum="10" Value="{Binding SelectedFilm.Ocena}" Height="20"/>
+
+                <!-- Lista postaci z filtrowaniem -->
+                <TextBlock Text="Postacie:" FontWeight="Bold" FontSize="16"/>
+                <ComboBox ItemsSource="{Binding Rasy}" SelectedItem="{Binding SelectedRasa}" Width="200"/>
+                <ListBox ItemsSource="{Binding PrzefiltrowanePostacie}" Height="150">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="{Binding ImieNazwisko}" />
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Rola}" />
+                                <TextBlock Text=" (" />
+                                <TextBlock Text="{Binding Rasa}" />
+                                <TextBlock Text=")"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </Window>

@@ -76,3 +76,4 @@
 /home/damian/RiderProjects/AlienDB/AlienDB/obj/Debug/net9.0/AlienDB.pdb
 /home/damian/RiderProjects/AlienDB/AlienDB/obj/Debug/net9.0/AlienDB.genruntimeconfig.cache
 /home/damian/RiderProjects/AlienDB/AlienDB/obj/Debug/net9.0/ref/AlienDB.dll
+/home/damian/RiderProjects/AlienDB/AlienDB/obj/Debug/net9.0/AlienDB.sourcelink.json
